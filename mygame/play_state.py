@@ -1,6 +1,7 @@
 from pico2d import *
 import random
 import game_framework
+import pause_state
 
 class Map:
     def __init__(self):
@@ -104,7 +105,6 @@ def handle_events():
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
-            #running = False
             game_framework.quit()
         elif event.type == SDL_KEYDOWN:
             if event.key == SDLK_d or event.key == SDLK_RIGHT:
@@ -116,8 +116,7 @@ def handle_events():
             elif event.key == SDLK_s or event.key == SDLK_DOWN:
                 character.dirud -= 1
             elif event.key == SDLK_ESCAPE:
-                #running = False
-                game_framework.quit()
+                game_framework.push_state(pause_state)
             elif event.key == SDLK_r:
                 bullet.reloading()
 
