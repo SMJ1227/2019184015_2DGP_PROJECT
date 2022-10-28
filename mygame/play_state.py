@@ -157,8 +157,14 @@ def enter():
     bullet = Bullet()
 
 def exit():
-    global running, tuk_ground, character, monster, target, bullet
-    del running, tuk_ground, character, monster, target, bullet
+    global running
+    global tuk_ground, character, monster, target, bullet
+    del running
+    del tuk_ground
+    del character
+    del monster
+    del target
+    del bullet
 
 def update():
     character.update()

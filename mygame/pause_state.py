@@ -1,9 +1,11 @@
+import pico2d
 from pico2d import *
 import game_framework
 import title_state
 import play_state
 
 image = None
+running = True
 
 def enter():
     global image
@@ -35,6 +37,43 @@ def handle_events():
                 case pico2d.SDLK_t:
                     game_framework.change_state(title_state)
                 case pico2d.SDLK_r:
+                    play_state.exit()
                     game_framework.change_state(play_state)
                 case pico2d.SDLK_q:
                     game_framework.quit()
+                case pico2d.SDLK_d:
+                    play_state.character.dirrl += 1
+                case pico2d.SDLK_RIGHT:
+                    play_state.character.dirrl += 1
+                case pico2d.SDLK_a:
+                    play_state.character.dirrl -= 1
+                case pico2d.SDLK_LEFT:
+                    play_state.character.dirrl -= 1
+                case pico2d.SDLK_w:
+                    play_state.character.dirud += 1
+                case pico2d.SDLK_UP:
+                    play_state.character.dirud += 1
+                case pico2d.SDLK_s:
+                    play_state.character.dirud -= 1
+                case pico2d.SDLK_DOWN:
+                    play_state.character.dirud -= 1
+
+        elif event.type == SDL_KEYUP:
+            match event.key:
+                case pico2d.SDLK_d:
+                    play_state.character.dirrl -= 1
+                case pico2d.SDLK_RIGHT:
+                    play_state.character.dirrl -= 1
+                case pico2d.SDLK_a:
+                    play_state.character.dirrl += 1
+                case pico2d.SDLK_LEFT:
+                    play_state.character.dirrl += 1
+                case pico2d.SDLK_w:
+                    play_state.character.dirud -= 1
+                case pico2d.SDLK_UP:
+                    play_state.character.dirud -= 1
+                case pico2d.SDLK_s:
+                    play_state.character.dirud += 1
+                case pico2d.SDLK_DOWN:
+                    play_state.character.dirud += 1
+
