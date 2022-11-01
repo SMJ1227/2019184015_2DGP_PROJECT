@@ -34,11 +34,10 @@ def handle_events():
             match event.key:
                 case pico2d.SDLK_ESCAPE:
                     game_framework.pop_state()
+                case pico2d.SDLK_r:
+                    game_framework.pop_state()
                 case pico2d.SDLK_t:
                     game_framework.change_state(title_state)
-                case pico2d.SDLK_r:
-                    play_state.exit()
-                    game_framework.change_state(play_state)
                 case pico2d.SDLK_q:
                     game_framework.quit()
                 case pico2d.SDLK_d:

@@ -148,7 +148,8 @@ target = None
 bullet = None
 
 def enter():
-    global running, tuk_ground, character, monster, target, bullet
+    global running
+    global tuk_ground, character, monster, target, bullet
     running = True
     tuk_ground = Map()
     character = Boy()
