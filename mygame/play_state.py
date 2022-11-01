@@ -1,15 +1,8 @@
 from pico2d import *
+from Map import *
 import random
 import game_framework
 import pause_state
-
-class Map:
-    def __init__(self):
-        #self.image = load_image('TUK_GROUND.png')
-        self.image = load_image('grass_map.png')
-
-    def draw(self):
-        self.image.draw(TUK_GROUND_FULL_WIDTH // 2, TUK_GROUND_FULL_HEIGHT // 2)
 
 class Boy:
     def __init__(self):

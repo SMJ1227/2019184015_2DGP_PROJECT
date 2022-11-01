@@ -1,13 +1,14 @@
 from pico2d import *
+from Map import *
 import game_framework
 import play_state
-import map_state
+import title_state
 
 image = None
 
 def enter():
     global image
-    image = load_image('title.png')
+    image = load_image('map_state.png')
 
 def exit():
     global image
@@ -21,11 +22,13 @@ def handle_events():
         elif event.type == SDL_KEYDOWN:
             match event.key:
                 case pico2d.SDLK_ESCAPE:
-                    game_framework.quit()
-                case pico2d.SDLK_SPACE:
+                    game_framework.change_state(title_state)
+                case pico2d.SDLK_1:
+                    Map.image = 1
                     game_framework.change_state(play_state)
-                case pico2d.SDLK_m:
-                    game_framework.change_state(map_state)
+                case pico2d.SDLK_2:
+                    Map.image = 2
+                    game_framework.change_state(play_state)
 
 def draw():
     clear_canvas()
