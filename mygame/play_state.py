@@ -1,15 +1,8 @@
 from pico2d import *
+from Map import *
 import random
 import game_framework
 import pause_state
-
-class Map:
-    def __init__(self):
-        #self.image = load_image('TUK_GROUND.png')
-        self.image = load_image('grass_map.png')
-
-    def draw(self):
-        self.image.draw(TUK_GROUND_FULL_WIDTH // 2, TUK_GROUND_FULL_HEIGHT // 2)
 
 class Boy:
     def __init__(self):
@@ -148,7 +141,8 @@ target = None
 bullet = None
 
 def enter():
-    global running, tuk_ground, character, monster, target, bullet
+    global running
+    global tuk_ground, character, monster, target, bullet
     running = True
     tuk_ground = Map()
     character = Boy()
@@ -157,8 +151,14 @@ def enter():
     bullet = Bullet()
 
 def exit():
-    global running, tuk_ground, character, monster, target, bullet
-    del running, tuk_ground, character, monster, target, bullet
+    global running
+    global tuk_ground, character, monster, target, bullet
+    del running
+    del tuk_ground
+    del character
+    del monster
+    del target
+    del bullet
 
 def update():
     character.update()
