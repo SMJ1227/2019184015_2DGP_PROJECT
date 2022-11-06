@@ -1,5 +1,7 @@
 from pico2d import *
 from Map import *
+from Bullet import *
+from Target import *
 import random
 import game_framework
 import pause_state
@@ -71,27 +73,6 @@ class Monster:
 
     def draw(self):
         self.image.draw(self.monster_x, self.monster_y)
-
-class Target:
-    def __init__(self):
-        self.image = load_image('target.png')
-        self.mouse_x = TUK_GROUND_FULL_WIDTH // 2
-        self.mouse_y = TUK_GROUND_FULL_HEIGHT // 2
-
-    def draw(self):
-        self.image.draw(self.mouse_x, self.mouse_y)
-
-class Bullet:
-    def __init__(self):
-        self.image = load_image('bullet.png')
-        self.bullets = 6
-
-    def reloading(self):
-        self.bullets = 6
-
-    def draw(self):
-        for i in range(self.bullets):
-            self.image.draw(1200, 100 + (i * 30))
 
 def handle_events():
     global running
