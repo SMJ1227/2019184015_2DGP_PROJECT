@@ -20,7 +20,7 @@ class IDLE:
         self.dirud = 0
 
     def exit(self):
-        print('EXIT IDLE')
+        pass
 
     def do(self):
         self.upframe = (self.upframe + 1) % 8
@@ -52,7 +52,7 @@ class RUN:
             self.dirud += 1
 
     def exit(self):
-        print('EXIT RUN')
+        pass
 
     def do(self):
         self.upframe = (self.upframe + 1) % 8
@@ -98,7 +98,7 @@ class DRUN:
             self.dirud += 1
 
     def exit(self):
-        print('EXIT DRUN')
+        pass
 
     def do(self):
         self.upframe = (self.upframe + 1) % 8
@@ -144,7 +144,7 @@ class TRUN:
             self.dirud += 1
 
     def exit(self):
-        print('EXIT RUN')
+        pass
 
     def do(self):
         self.upframe = (self.upframe + 1) % 8
@@ -166,11 +166,26 @@ class TRUN:
         elif self.dirud == -1:
             self.image.clip_draw(self.downframe * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
 
+class QRUN:
+    def enter(self, event):
+        self.dirrl = 0
+        self.dirud = 0
+
+    def exit(self):
+        pass
+
+    def do(self):
+        self.upframe = (self.upframe + 1) % 8
+
+    def draw(self):
+        self.image.clip_draw(self.upframe * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
+
 next_state = {
     IDLE : {RU: IDLE, LU: IDLE, UU: IDLE, DU: IDLE, RD: RUN, LD: RUN, UD: RUN, DD: RUN},
     RUN : {RU: IDLE, LU: IDLE, UU: IDLE, DU: IDLE, RD: DRUN, LD: DRUN, UD: DRUN, DD: DRUN},
     DRUN : {RU: RUN, LU: RUN, UU: RUN, DU: RUN, RD: TRUN, LD: TRUN, UD: TRUN, DD: TRUN},
-    TRUN : {RU: DRUN, LU: DRUN, UU: DRUN, DU: DRUN, RD: IDLE, LD: IDLE, UD: IDLE, DD: IDLE}
+    TRUN : {RU: DRUN, LU: DRUN, UU: DRUN, DU: DRUN, RD: QRUN, LD: QRUN, UD: QRUN, DD: QRUN},
+    QRUN : {RU: TRUN, LU: TRUN, UU: TRUN, DU: TRUN, RD: IDLE, LD: IDLE, UD: IDLE, DD: IDLE}
 }
 
 class Boy:

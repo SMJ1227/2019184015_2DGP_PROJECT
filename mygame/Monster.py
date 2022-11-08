@@ -12,7 +12,7 @@ class Monster:
     def update(self):
         self.monster_x = (1 - self.t) * self.monster_x + self.t * play_state.character.character_x
         self.monster_y = (1 - self.t) * self.monster_y + self.t * play_state.character.character_y
-        self.t += 0.0001
+        self.t += 0.00001
 
     def draw(self):
         self.image.draw(self.monster_x, self.monster_y)
