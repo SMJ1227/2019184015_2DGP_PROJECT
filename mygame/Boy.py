@@ -4,14 +4,14 @@ import play_state
 RD, LD, UD, DD, RU, LU, UU, DU = range(8)
 
 key_event_table = {
-    (SDL_KEYDOWN, SDLK_RIGHT): RD,
-    (SDL_KEYDOWN, SDLK_LEFT): LD,
-    (SDL_KEYDOWN, SDLK_UP): UD,
-    (SDL_KEYDOWN, SDLK_DOWN): DD,
-    (SDL_KEYUP, SDLK_RIGHT): RU,
-    (SDL_KEYUP, SDLK_LEFT): LU,
-    (SDL_KEYUP, SDLK_UP): UU,
-    (SDL_KEYUP, SDLK_DOWN): DU,
+    (SDL_KEYDOWN, SDLK_d): RD,
+    (SDL_KEYDOWN, SDLK_a): LD,
+    (SDL_KEYDOWN, SDLK_w): UD,
+    (SDL_KEYDOWN, SDLK_s): DD,
+    (SDL_KEYUP, SDLK_d): RU,
+    (SDL_KEYUP, SDLK_a): LU,
+    (SDL_KEYUP, SDLK_w): UU,
+    (SDL_KEYUP, SDLK_s): DU,
 }
 
 class IDLE:
@@ -59,8 +59,8 @@ class RUN:
         self.downframe = (self.downframe - 1) % 8
         self.character_x += self.dirrl * 1
         self.character_y += self.dirud * 1
-        self.x = clamp(0, self.character_x, 1280)
-        self.y = clamp(0, self.character_y, 1024)
+        self.character_x = clamp(0, self.character_x, 1280)
+        self.character_y = clamp(0, self.character_y, 1024)
 
     def draw(self):
         if self.dirrl == 0 and self.dirud == 0:
@@ -105,8 +105,8 @@ class DRUN:
         self.downframe = (self.downframe - 1) % 8
         self.character_x += self.dirrl * 1
         self.character_y += self.dirud * 1
-        self.x = clamp(0, self.character_x, 1280)
-        self.y = clamp(0, self.character_y, 1024)
+        self.character_x = clamp(0, self.character_x, 1280)
+        self.character_y = clamp(0, self.character_y, 1024)
 
     def draw(self):
         if self.dirrl == 0 and self.dirud == 0:
@@ -151,8 +151,8 @@ class TRUN:
         self.downframe = (self.downframe - 1) % 8
         self.character_x += self.dirrl * 1
         self.character_y += self.dirud * 1
-        self.x = clamp(0, self.character_x, 1280)
-        self.y = clamp(0, self.character_y, 1024)
+        self.character_x = clamp(0, self.character_x, 1280)
+        self.character_y = clamp(0, self.character_y, 1024)
 
     def draw(self):
         if self.dirrl == 0 and self.dirud == 0:

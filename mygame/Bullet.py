@@ -8,6 +8,9 @@ class Bullet:
     def reloading(self):
         self.bullets = 6
 
+    def update(self):
+        pass
+
     def draw(self):
         for i in range(self.bullets):
             self.image.draw(1200, 100 + (i * 30))

@@ -3,8 +3,11 @@ import random
 import play_state
 
 class Monster:
+    image = None
+
     def __init__(self):
-        self.image = load_image('monster.png')
+        if Monster.image == None:
+            Monster.image = load_image('monster.png')
         self.monster_x = random.randint(0, play_state.TUK_GROUND_FULL_WIDTH)
         self.monster_y = random.randint(0, play_state.TUK_GROUND_FULL_HEIGHT)
         self.t = 0

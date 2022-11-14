@@ -13,5 +13,8 @@ class Map:
         elif Map.image == 3:
             self.image = load_image('dessert_map.png')
 
+    def update(self):
+        pass
+
     def draw(self):
         self.image.draw(play_state.TUK_GROUND_FULL_WIDTH // 2, play_state.TUK_GROUND_FULL_HEIGHT // 2)
