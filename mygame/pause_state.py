@@ -81,10 +81,8 @@ def draw():
     image.draw(play_state.TUK_GROUND_FULL_WIDTH // 2, play_state.TUK_GROUND_FULL_HEIGHT // 2)
     update_canvas()
 
-def add_event(self, event):
-    self.q.insert(0, event)
-
-def handle_events(self, event):
+def handle_events():
+    events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
@@ -98,6 +96,3 @@ def handle_events(self, event):
                     game_framework.change_state(title_state)
                 case pico2d.SDLK_q:
                     game_framework.quit()
-        elif(event.type, event.key) in key_event_table:
-            key_event = key_event_table[(event.type, event.key)]
-            self.q.insert(0, key_event)
