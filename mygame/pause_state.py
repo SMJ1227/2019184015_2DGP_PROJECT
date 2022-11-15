@@ -1,6 +1,7 @@
 from pico2d import *
 from Boy import *
 import game_framework
+import game_world
 import title_state
 import play_state
 
@@ -94,5 +95,6 @@ def handle_events():
                     game_framework.pop_state()
                 case pico2d.SDLK_t:
                     game_framework.change_state(title_state)
+                    game_world.clear()
                 case pico2d.SDLK_q:
                     game_framework.quit()
