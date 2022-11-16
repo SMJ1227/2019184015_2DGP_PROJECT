@@ -48,7 +48,7 @@ class Boy:
 class IDLE:
     pass
 class RUN:
-    pass
+     pass
 class DRUN:
     pass
 class TRUN:
@@ -87,6 +87,10 @@ def handle_events():
     for event in events:
         if event.type == SDL_QUIT:
             game_framework.quit()
+        # elif (event.type, event.key) in key_event_table:
+        #     key_event = key_event_table[(event.type, event.key)]
+        #     Boy.q.insert(0, key_event)
+        #     Boy.update(event)
         elif event.type == SDL_KEYDOWN:
             match event.key:
                 case pico2d.SDLK_ESCAPE:
@@ -98,3 +102,4 @@ def handle_events():
                     game_world.clear()
                 case pico2d.SDLK_q:
                     game_framework.quit()
+

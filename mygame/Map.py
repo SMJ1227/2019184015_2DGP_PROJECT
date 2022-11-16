@@ -17,4 +17,4 @@ class Map:
         pass
 
     def draw(self):
-        self.image.draw(play_state.TUK_GROUND_FULL_WIDTH // 2, play_state.TUK_GROUND_FULL_HEIGHT // 2)
+        self.image.draw(640, 512)

@@ -1,5 +1,7 @@
 from pico2d import *
 import play_state
+import game_framework
+import game_world
 
 RD, LD, UD, DD, RU, LU, UU, DU = range(8)
 
@@ -14,6 +16,17 @@ key_event_table = {
     (SDL_KEYUP, SDLK_s): DU,
 }
 
+# 이속
+PIXEL_PER_METER = (10.0 / 0.25) # 10pixel 25cm / 키185cm
+RUN_SPEED_KMPH = 30.0 # Km/Hour
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+TIME_PER_ACTION = 0.5
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 8
+
 class IDLE:
     def enter(self, event):
         self.dirrl = 0
@@ -23,10 +36,10 @@ class IDLE:
         pass
 
     def do(self):
-        self.upframe = (self.upframe + 1) % 8
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
 
     def draw(self):
-        self.image.clip_draw(self.upframe * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
+        self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
 
 class RUN:
     def enter(self, event):
@@ -55,24 +68,23 @@ class RUN:
         pass
 
     def do(self):
-        self.upframe = (self.upframe + 1) % 8
-        self.downframe = (self.downframe - 1) % 8
-        self.character_x += self.dirrl * 1
-        self.character_y += self.dirud * 1
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+        self.character_x += self.dirrl * RUN_SPEED_PPS * game_framework.frame_time
+        self.character_y += self.dirud * RUN_SPEED_PPS * game_framework.frame_time
         self.character_x = clamp(0, self.character_x, 1280)
         self.character_y = clamp(0, self.character_y, 1024)
 
     def draw(self):
         if self.dirrl == 0 and self.dirud == 0:
-            self.image.clip_draw(self.upframe * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
         if self.dirrl == 1:
-            self.image.clip_draw(self.upframe * 100, 100 * 1, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * 1, 100, 100, self.character_x, self.character_y)
         elif self.dirrl == -1:
-            self.image.clip_draw(self.downframe * 100, 100 * 0, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * 0, 100, 100, self.character_x, self.character_y)
         elif self.dirud == 1:
-            self.image.clip_draw(self.upframe * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
         elif self.dirud == -1:
-            self.image.clip_draw(self.downframe * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
 
 class DRUN:
     def enter(self, event):
@@ -101,24 +113,23 @@ class DRUN:
         pass
 
     def do(self):
-        self.upframe = (self.upframe + 1) % 8
-        self.downframe = (self.downframe - 1) % 8
-        self.character_x += self.dirrl * 1
-        self.character_y += self.dirud * 1
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+        self.character_x += self.dirrl * RUN_SPEED_PPS * game_framework.frame_time
+        self.character_y += self.dirud * RUN_SPEED_PPS * game_framework.frame_time
         self.character_x = clamp(0, self.character_x, 1280)
         self.character_y = clamp(0, self.character_y, 1024)
 
     def draw(self):
         if self.dirrl == 0 and self.dirud == 0:
-            self.image.clip_draw(self.upframe * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
         if self.dirrl == 1:
-            self.image.clip_draw(self.upframe * 100, 100 * 1, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * 1, 100, 100, self.character_x, self.character_y)
         elif self.dirrl == -1:
-            self.image.clip_draw(self.downframe * 100, 100 * 0, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * 0, 100, 100, self.character_x, self.character_y)
         elif self.dirud == 1:
-            self.image.clip_draw(self.upframe * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
         elif self.dirud == -1:
-            self.image.clip_draw(self.downframe * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
 
 class TRUN:
     def enter(self, event):
@@ -147,24 +158,23 @@ class TRUN:
         pass
 
     def do(self):
-        self.upframe = (self.upframe + 1) % 8
-        self.downframe = (self.downframe - 1) % 8
-        self.character_x += self.dirrl * 1
-        self.character_y += self.dirud * 1
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+        self.character_x += self.dirrl * RUN_SPEED_PPS * game_framework.frame_time
+        self.character_y += self.dirud * RUN_SPEED_PPS * game_framework.frame_time
         self.character_x = clamp(0, self.character_x, 1280)
         self.character_y = clamp(0, self.character_y, 1024)
 
     def draw(self):
         if self.dirrl == 0 and self.dirud == 0:
-            self.image.clip_draw(self.upframe * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
         if self.dirrl == 1:
-            self.image.clip_draw(self.upframe * 100, 100 * 1, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * 1, 100, 100, self.character_x, self.character_y)
         elif self.dirrl == -1:
-            self.image.clip_draw(self.downframe * 100, 100 * 0, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * 0, 100, 100, self.character_x, self.character_y)
         elif self.dirud == 1:
-            self.image.clip_draw(self.upframe * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
         elif self.dirud == -1:
-            self.image.clip_draw(self.downframe * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
 
 class QRUN:
     def enter(self, event):
@@ -175,10 +185,10 @@ class QRUN:
         pass
 
     def do(self):
-        self.upframe = (self.upframe + 1) % 8
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
 
     def draw(self):
-        self.image.clip_draw(self.upframe * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
+        self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
 
 next_state = {
     IDLE : {RU: IDLE, LU: IDLE, UU: IDLE, DU: IDLE, RD: RUN, LD: RUN, UD: RUN, DD: RUN},
@@ -200,8 +210,7 @@ class Boy:
     def __init__(self):
         self.character_x = play_state.TUK_GROUND_FULL_WIDTH // 2
         self.character_y = play_state.TUK_GROUND_FULL_HEIGHT // 2
-        self.upframe = 0
-        self.downframe = 0
+        self.frame = 0
         self.dirrl = 0
         self.dirud = 0
         self. rl = 3
@@ -209,6 +218,7 @@ class Boy:
         self.q = []
         self.cur_state = IDLE
         self.cur_state.enter(self, None)
+        self.font = load_font('ENCR10B.TTF', 16)
 
     def update(self):
         self.cur_state.do(self)
@@ -220,3 +230,14 @@ class Boy:
 
     def draw(self):
         self.cur_state.draw(self)
+        self.font.draw(600, 1000, f'(Time: {get_time():.2f})', (0, 0, 0))
+        draw_rectangle(*self.get_bb())
+
+    def get_bb(self):
+        return self.character_x-10, self.character_y-35, self.character_x+15, self.character_y+40
+
+    def handle_collision(self, other, group):
+        pass
+        # if group == 'character:monster':
+        #     game_framework.quit()
+        #     game_world.remove_object(self)

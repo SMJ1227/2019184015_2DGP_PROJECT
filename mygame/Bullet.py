@@ -14,3 +14,9 @@ class Bullet:
     def draw(self):
         for i in range(self.bullets):
             self.image.draw(1200, 100 + (i * 30))
+
+    def handle_event(self, event):
+        if (event.type, event.key) == (SDL_KEYDOWN, SDLK_r):
+            self.reloading()
+        elif event.type == SDL_MOUSEBUTTONDOWN:
+            self.bullets -= 1
