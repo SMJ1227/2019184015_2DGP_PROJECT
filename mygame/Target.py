@@ -1,6 +1,8 @@
 from pico2d import *
+from Shot import *
 import play_state
 import game_world
+
 
 class Target:
     def __init__(self):
@@ -19,7 +21,8 @@ class Target:
         if event.type == SDL_MOUSEMOTION:
             self.mouse_x, self.mouse_y = event.x, play_state.TUK_GROUND_FULL_HEIGHT - 1 - event.y
         elif event.type == SDL_MOUSEBUTTONDOWN:
-            pass
+            shot = Shot(self.mouse_x, self.mouse_y)
+            game_world.add_object(shot, 1)
 
     def get_bb(self):
         return self.mouse_x-1, self.mouse_y-1, self.mouse_x+1, self.mouse_y+1

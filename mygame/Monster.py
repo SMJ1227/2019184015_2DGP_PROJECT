@@ -27,10 +27,6 @@ class Monster:
     def get_bb(self):
         return self.monster_x-30, self.monster_y-25, self.monster_x+30, self.monster_y+25
 
-    def handle_event(self, event):
-        if event.type == SDL_MOUSEBUTTONDOWN:
-            print(self.a)
-
     def handle_collision(self, other, group):
-        if group == 'target:monster':
+        if group == 'shot:monster':
             game_world.remove_object(self)

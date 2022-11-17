@@ -4,6 +4,7 @@ from Monster import *
 from Bullet import *
 from Target import *
 from Boy import *
+from Shot import *
 
 import game_framework
 import game_world
@@ -18,7 +19,7 @@ def handle_events():
             game_framework.push_state(pause_state)
 
         else:
-            monster.handle_event(event)
+            #monster.handle_event(event)
             target.handle_event(event)
             bullet.handle_event(event)
             character.handle_events(event)
@@ -32,27 +33,25 @@ character = None
 monsters = []
 target = None
 bullet = None
+shot = None
 
 def enter():
-    global world, monster, monsters, character, target, bullet
+    global world, monster, monsters, character, target, bullet, shot
     world = Map()
     game_world.add_object(world, 0)
-
     character = Boy()
     game_world.add_object(character, 1)
-
     monster = Monster()
     monsters = [Monster() for i in range(10)]
     game_world.add_objects(monsters, 1)
-
     target = Target()
     game_world.add_object(target, 2)
-
     bullet = Bullet()
     game_world.add_object(bullet, 2)
 
+    shot = Shot(0, 0)
     game_world.add_collision_pairs(character, monsters, 'character:monster')
-    game_world.add_collision_pairs(target, monsters, 'target:monster')
+    game_world.add_collision_pairs(shot, monsters, 'shot:monster')
 
 def exit():
     game_world.clear()
@@ -63,7 +62,7 @@ def update():
 
     for a, b, group in game_world.all_collision_pairs():
         if collide(a, b):
-            #print('COLLISON ', group)
+            print('COLLISON ', group)
             a.handle_collision(b, group)
             b.handle_collision(a, group)
 
