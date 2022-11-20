@@ -24,6 +24,10 @@ class Target:
             shot = Shot(self.mouse_x, self.mouse_y)
             game_world.add_collision_pairs(shot, play_state.monsters, 'shot:monster')
             game_world.add_object(shot, 1)
+            # if game_world.collision_group == 'shot:monster':
+            #     game_world.remove_object(shot)
+            # else:
+            #     game_world.remove_object(shot)
 
     def get_bb(self):
         return self.mouse_x-1, self.mouse_y-1, self.mouse_x+1, self.mouse_y+1

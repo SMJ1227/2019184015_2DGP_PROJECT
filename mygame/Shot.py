@@ -1,11 +1,13 @@
 from pico2d import *
 import game_world
+import play_state
 
 class Shot:
     def __init__(self, x, y):
         self.x, self.y = x, y
 
     def update(self):
+        #game_world.remove_object(self)
         pass
 
     def draw(self):
@@ -17,5 +19,5 @@ class Shot:
     def handle_collision(self, other, group):
         if group == 'shot:monster':
             game_world.remove_object(self)
-        else:
+        elif group != 'shot:monster':
             game_world.remove_object(self)
