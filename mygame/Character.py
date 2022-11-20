@@ -237,7 +237,6 @@ class Boy:
         return self.character_x-10, self.character_y-35, self.character_x+15, self.character_y+40
 
     def handle_collision(self, other, group):
-        pass
-        # if group == 'character:monster':
-        #     game_framework.quit()
+        if group == 'character:monster':
+            pass#game_framework.quit()
         #     game_world.remove_object(self)

@@ -1,4 +1,5 @@
 from pico2d import *
+import time
 
 class Bullet:
     def __init__(self):

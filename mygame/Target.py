@@ -22,6 +22,7 @@ class Target:
             self.mouse_x, self.mouse_y = event.x, play_state.TUK_GROUND_FULL_HEIGHT - 1 - event.y
         elif event.type == SDL_MOUSEBUTTONDOWN:
             shot = Shot(self.mouse_x, self.mouse_y)
+            game_world.add_collision_pairs(shot, play_state.monsters, 'shot:monster')
             game_world.add_object(shot, 1)
 
     def get_bb(self):

@@ -12,8 +12,10 @@ class Shot:
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
-        return self.x - 1, self.y - 1, self.x + 1, self.y + 1
+        return self.x - 10, self.y - 10, self.x + 10, self.y + 10
 
     def handle_collision(self, other, group):
         if group == 'shot:monster':
+            game_world.remove_object(self)
+        else:
             game_world.remove_object(self)
