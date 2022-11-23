@@ -39,7 +39,7 @@ class IDLE:
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
 
     def draw(self):
-        self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
+        self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.x, self.y)
 
 class RUN:
     def enter(self, event):
@@ -69,22 +69,22 @@ class RUN:
 
     def do(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        self.character_x += self.dirrl * RUN_SPEED_PPS * game_framework.frame_time
-        self.character_y += self.dirud * RUN_SPEED_PPS * game_framework.frame_time
-        self.character_x = clamp(0, self.character_x, 1280)
-        self.character_y = clamp(0, self.character_y, 1024)
+        self.x += self.dirrl * RUN_SPEED_PPS * game_framework.frame_time
+        self.y += self.dirud * RUN_SPEED_PPS * game_framework.frame_time
+        self.x = clamp(0, self.x, 1280)
+        self.y = clamp(0, self.y, 1024)
 
     def draw(self):
         if self.dirrl == 0 and self.dirud == 0:
-            self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.x, self.y)
         if self.dirrl == 1:
-            self.image.clip_draw(int(self.frame) * 100, 100 * 1, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * 1, 100, 100, self.x, self.y)
         elif self.dirrl == -1:
-            self.image.clip_draw(int(self.frame) * 100, 100 * 0, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * 0, 100, 100, self.x, self.y)
         elif self.dirud == 1:
-            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.x, self.y)
         elif self.dirud == -1:
-            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.x, self.y)
 
 class DRUN:
     def enter(self, event):
@@ -114,22 +114,22 @@ class DRUN:
 
     def do(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        self.character_x += self.dirrl * RUN_SPEED_PPS * game_framework.frame_time
-        self.character_y += self.dirud * RUN_SPEED_PPS * game_framework.frame_time
-        self.character_x = clamp(0, self.character_x, 1280)
-        self.character_y = clamp(0, self.character_y, 1024)
+        self.x += self.dirrl * RUN_SPEED_PPS * game_framework.frame_time
+        self.y += self.dirud * RUN_SPEED_PPS * game_framework.frame_time
+        self.x = clamp(0, self.x, 1280)
+        self.y = clamp(0, self.y, 1024)
 
     def draw(self):
         if self.dirrl == 0 and self.dirud == 0:
-            self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.x, self.y)
         if self.dirrl == 1:
-            self.image.clip_draw(int(self.frame) * 100, 100 * 1, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * 1, 100, 100, self.x, self.y)
         elif self.dirrl == -1:
-            self.image.clip_draw(int(self.frame) * 100, 100 * 0, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * 0, 100, 100, self.x, self.y)
         elif self.dirud == 1:
-            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.x, self.y)
         elif self.dirud == -1:
-            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.x, self.y)
 
 class TRUN:
     def enter(self, event):
@@ -159,22 +159,22 @@ class TRUN:
 
     def do(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-        self.character_x += self.dirrl * RUN_SPEED_PPS * game_framework.frame_time
-        self.character_y += self.dirud * RUN_SPEED_PPS * game_framework.frame_time
-        self.character_x = clamp(0, self.character_x, 1280)
-        self.character_y = clamp(0, self.character_y, 1024)
+        self.x += self.dirrl * RUN_SPEED_PPS * game_framework.frame_time
+        self.y += self.dirud * RUN_SPEED_PPS * game_framework.frame_time
+        self.x = clamp(0, self.x, 1280)
+        self.y = clamp(0, self.y, 1024)
 
     def draw(self):
         if self.dirrl == 0 and self.dirud == 0:
-            self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.x, self.y)
         if self.dirrl == 1:
-            self.image.clip_draw(int(self.frame) * 100, 100 * 1, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * 1, 100, 100, self.x, self.y)
         elif self.dirrl == -1:
-            self.image.clip_draw(int(self.frame) * 100, 100 * 0, 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * 0, 100, 100, self.x, self.y)
         elif self.dirud == 1:
-            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.x, self.y)
         elif self.dirud == -1:
-            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.character_x, self.character_y)
+            self.image.clip_draw(int(self.frame) * 100, 100 * (self.rl-2), 100, 100, self.x, self.y)
 
 class QRUN:
     def enter(self, event):
@@ -188,7 +188,7 @@ class QRUN:
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
 
     def draw(self):
-        self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.character_x, self.character_y)
+        self.image.clip_draw(int(self.frame) * 100, 100 * self.rl, 100, 100, self.x, self.y)
 
 next_state = {
     IDLE : {RU: IDLE, LU: IDLE, UU: IDLE, DU: IDLE, RD: RUN, LD: RUN, UD: RUN, DD: RUN},
@@ -208,8 +208,8 @@ class Boy:
             self.q.insert(0, key_event)
 
     def __init__(self):
-        self.character_x = play_state.TUK_GROUND_FULL_WIDTH // 2
-        self.character_y = play_state.TUK_GROUND_FULL_HEIGHT // 2
+        self.x = play_state.TUK_GROUND_FULL_WIDTH // 2
+        self.y = play_state.TUK_GROUND_FULL_HEIGHT // 2
         self.frame = 0
         self.dirrl = 0
         self.dirud = 0
@@ -234,7 +234,7 @@ class Boy:
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
-        return self.character_x-10, self.character_y-35, self.character_x+15, self.character_y+40
+        return self.x-10, self.y-35, self.x+15, self.y+40
 
     def handle_collision(self, other, group):
         if group == 'character:monster':
