@@ -4,7 +4,6 @@ from Monster import *
 from Bullet import *
 from Target import *
 from Character import *
-from Shot import *
 
 import game_framework
 import game_world
@@ -19,7 +18,7 @@ def handle_events():
             game_framework.push_state(pause_state)
 
         else:
-            #monster.handle_event(event)
+            monster.handle_event(event)
             target.handle_event(event)
             bullet.handle_event(event)
             character.handle_events(event)
@@ -27,27 +26,28 @@ def handle_events():
 TUK_GROUND_FULL_WIDTH = 1280
 TUK_GROUND_FULL_HEIGHT = 1024
 
-#monster = None
 world = None
 character = None
-#monster = None
+monster = None
 monsters = []
 target = None
 bullet = None
 
 def enter():
-    global world, character, target, bullet, monsters#, monster
+    global world, character, target, bullet, monsters, monster
     world = Map()
     game_world.add_object(world, 0)
     character = Boy()
     game_world.add_object(character, 1)
-    #monster = Monster()
+    monster = Monster()
     monsters = [Monster() for i in range(10)]
     game_world.add_objects(monsters, 1)
     target = Target()
     game_world.add_object(target, 2)
     bullet = Bullet()
     game_world.add_object(bullet, 2)
+    game_world.add_collision_pairs(character, monsters, 'character:monster')
+    game_world.add_collision_pairs(target, monsters, 'target:monster')
 
 def exit():
     game_world.clear()

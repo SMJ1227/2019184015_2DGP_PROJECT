@@ -3,7 +3,7 @@ import play_state
 import random
 
 class Map:
-    image = random.randint(0, 3)
+    image = random.randint(1, 3)
 
     def __init__(self):
         if Map.image == 1:

@@ -21,3 +21,5 @@ class Bullet:
             self.reloading()
         elif event.type == SDL_MOUSEBUTTONDOWN:
             self.bullets -= 1
+            if self.bullets == 0:
+                self.reloading()
