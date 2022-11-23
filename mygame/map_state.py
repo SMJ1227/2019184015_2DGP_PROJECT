@@ -24,13 +24,13 @@ def handle_events():
                 case pico2d.SDLK_ESCAPE:
                     game_framework.change_state(title_state)
                 case pico2d.SDLK_1:
-                    Map.image = 1
+                    Map.image_number = 0
                     game_framework.change_state(play_state)
                 case pico2d.SDLK_2:
-                    Map.image = 2
+                    Map.image_number = 1
                     game_framework.change_state(play_state)
                 case pico2d.SDLK_3:
-                    Map.image = 3
+                    Map.image_number = 2
                     game_framework.change_state(play_state)
 
 def draw():
