@@ -1,7 +1,7 @@
 from pico2d import *
 from BehaviorTree import BehaviorTree, Selector, Sequence, Leaf
 from Character import *
-
+import time
 import math
 import random
 import play_state
@@ -33,6 +33,7 @@ FRAMES_PER_ACTION = 4
 Monster_type = ['monster.png', 'monster_horse.png']
 
 class Monster:
+    hit = False
 
     def __init__(self):
         self.monster_type_number = random.randint(0, 1)
@@ -48,9 +49,12 @@ class Monster:
         self.random_location = RandomLocation(self.tx, self.ty)
         self.dir = random.random() * 2 * math.pi  # random moving direction
         self.speed = 0
-        self.timer = 1.0  # change direction every 1 sec when wandering
+        #self.timer = 1.0  # change direction every 1 sec when wandering
         self.frame = 0.0
         self.build_behavior_tree()
+        self.hit_start = 0
+        self.time = time.time()
+        self.hp = 1
 
     def calculate_current_position(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
@@ -88,7 +92,7 @@ class Monster:
             self.speed = 0
             return BehaviorTree.SUCCESS
         else:
-            self.speed = RUN_SPEED_PPS * 3
+            self.speed = RUN_SPEED_PPS * 1
             return BehaviorTree.RUNNING
 
     def build_behavior_tree(self):
@@ -102,8 +106,16 @@ class Monster:
             self.bt = BehaviorTree(wander_sequence)
 
     def update(self):
+        print(Monster.hit)
+        print(self.hp)
         self.bt.run()
         self.calculate_current_position()
+        self.time = time.time()
+        if self.time - self.hit_start >= 3:
+            Monster.hit = False
+        if self.hp == 0:
+            game_world.add_object(self, 1)
+
 
     def draw(self):
         if self.monster_type_number == 0:
@@ -122,10 +134,9 @@ class Monster:
 
     def handle_event(self, event):
         if event.type == SDL_MOUSEBUTTONDOWN:
-            pass
-            #for a, b, group in game_world.all_collision_pairs():
-            #    if play_state.collide(a, b):
-            #        game_world.remove_object(self)
+            if Monster.hit is not False:
+                self.hp -= 1
+                #game_world.remove_object(self)
 
     def get_bb(self):
         if self.monster_type_number == 0:
@@ -134,8 +145,8 @@ class Monster:
             return self.x - 40, self.y - 25, self.x + 40, self.y + 25
 
     def handle_collision(self, other, group):
-        pass
-        if group == 'target:monster':# and self.a:
-            pass
-            #game_world.remove_object(self)
-        #    self.a = False
+        if group == 'character:monster' and Boy.hit:
+            game_world.remove_object(self)
+        if group == 'target:monster':
+            self.hit_start = time.time()
+            Monster.hit = True

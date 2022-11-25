@@ -1,7 +1,7 @@
 from pico2d import *
 import play_state
 import game_world
-
+from Monster import *
 
 class Target:
     def __init__(self):

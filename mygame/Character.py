@@ -2,6 +2,18 @@ from pico2d import *
 import play_state
 import game_framework
 import game_world
+import time
+
+class Shield:
+    def __init__(self, x=0, y=0):
+        self.x, self.y = x, y
+        self.image = load_image('shield.png')
+
+    def update(self):
+        pass
+
+    def draw(self):
+        self.image.draw(self.x, self.y, 100, 100)
 
 RD, LD, UD, DD, RU, LU, UU, DU = range(8)
 
@@ -199,6 +211,8 @@ next_state = {
 }
 
 class Boy:
+    hit = False
+
     def add_event(self, event):
         self.q.insert(0, event)
 
@@ -219,9 +233,16 @@ class Boy:
         self.cur_state = IDLE
         self.cur_state.enter(self, None)
         self.font = load_font('ENCR10B.TTF', 16)
+        self.shield = Shield(self.x, self.y)
+        self.hit_start = 0
+        self.time = time.time()
 
     def update(self):
         self.cur_state.do(self)
+        self.shield = Shield(self.x, self.y)
+        self.time = time.time()
+        if self.time - self.hit_start >= 0.5:
+            Boy.hit = False
         if self.q:
             event = self.q.pop()
             self.cur_state.exit(self)
@@ -230,6 +251,8 @@ class Boy:
 
     def draw(self):
         self.cur_state.draw(self)
+        if Boy.hit:
+            self.shield.draw()
         self.font.draw(600, 1000, f'(Time: {get_time():.2f})', (0, 0, 0))
         draw_rectangle(*self.get_bb())
 
@@ -238,5 +261,5 @@ class Boy:
 
     def handle_collision(self, other, group):
         if group == 'character:monster':
-            pass#game_framework.quit()
-        #     game_world.remove_object(self)
+            self.hit_start = time.time()
+            Boy.hit = True

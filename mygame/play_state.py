@@ -26,7 +26,7 @@ def handle_events():
 TUK_GROUND_FULL_WIDTH = 1280
 TUK_GROUND_FULL_HEIGHT = 1024
 
-#world = None
+world = None
 character = None
 monster = None
 #monsters = []
@@ -42,7 +42,7 @@ def enter():
     game_world.add_object(character, 1)
 
     monster = Monster()
-    monsters = [Monster() for i in range(10)]
+    monsters = [Monster()]
     game_world.add_objects(monsters, 1)
 
     target = Target()
