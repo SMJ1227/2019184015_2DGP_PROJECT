@@ -33,7 +33,6 @@ FRAMES_PER_ACTION = 4
 Monster_type = ['monster.png', 'monster_horse.png']
 
 class Monster:
-    hit = False
     click = False
 
     def __init__(self):
@@ -50,12 +49,10 @@ class Monster:
         self.random_location = RandomLocation(self.tx, self.ty)
         self.dir = random.random() * 2 * math.pi  # random moving direction
         self.speed = 0
-        #self.timer = 1.0  # change direction every 1 sec when wandering
         self.frame = 0.0
         self.build_behavior_tree()
-        self.hit_start = 0
+        self.click_start = 0
         self.time = time.time()
-        self.hp = 1
 
     def calculate_current_position(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
@@ -107,16 +104,12 @@ class Monster:
             self.bt = BehaviorTree(wander_sequence)
 
     def update(self):
-        print(Monster.hit)
-        print(self.hp)
         self.bt.run()
         self.calculate_current_position()
         self.time = time.time()
-        if self.time - self.hit_start >= 3:
-            Monster.hit = False
-        if self.hp == 0:
-            game_world.add_object(self, 1)
-
+        if self.time - self.click_start >= 1:
+            print(self.click_start)
+            Monster.click = False
 
     def draw(self):
         if self.monster_type_number == 0:
@@ -134,13 +127,11 @@ class Monster:
                 self.image.clip_composite_draw(int(self.frame) * 100, 100 * 0, 100, 100, 0, 'h', self.x, self.y, 100, 100)
 
     def handle_event(self, event):
-        if event.type == SDL_MOUSEBUTTONDOWN:# and Monster.hit:
+        if event.type == SDL_MOUSEBUTTONDOWN:
+            self.click_start = time.time()
             Monster.click = True
-        elif event.type == SDL_MOUSEBUTTONUP:
-            Monster.click = False
-            # if Monster.hit:
-            #     #self.hp -= 1
-            #     game_world.remove_object(self)
+        #elif event.type == SDL_MOUSEBUTTONUP:
+            #Monster.click = False
 
     def get_bb(self):
         if Monster.click:
@@ -156,5 +147,3 @@ class Monster:
             game_world.remove_object(self)
         if group == 'target:monster':
             game_world.remove_object(self)
-            #self.hit_start = time.time()
-            #Monster.hit = True
