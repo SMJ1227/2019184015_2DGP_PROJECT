@@ -34,6 +34,7 @@ Monster_type = ['monster.png', 'monster_horse.png']
 
 class Monster:
     hit = False
+    click = False
 
     def __init__(self):
         self.monster_type_number = random.randint(0, 1)
@@ -133,20 +134,27 @@ class Monster:
                 self.image.clip_composite_draw(int(self.frame) * 100, 100 * 0, 100, 100, 0, 'h', self.x, self.y, 100, 100)
 
     def handle_event(self, event):
-        if event.type == SDL_MOUSEBUTTONDOWN:
-            if Monster.hit is not False:
-                self.hp -= 1
-                #game_world.remove_object(self)
+        if event.type == SDL_MOUSEBUTTONDOWN:# and Monster.hit:
+            Monster.click = True
+        elif event.type == SDL_MOUSEBUTTONUP:
+            Monster.click = False
+            # if Monster.hit:
+            #     #self.hp -= 1
+            #     game_world.remove_object(self)
 
     def get_bb(self):
-        if self.monster_type_number == 0:
-            return self.x-30, self.y-25, self.x+30, self.y+25
-        elif self.monster_type_number == 1:
-            return self.x - 40, self.y - 25, self.x + 40, self.y + 25
+        if Monster.click:
+            if self.monster_type_number == 0:
+                return self.x-30, self.y-25, self.x+30, self.y+25
+            elif self.monster_type_number == 1:
+                return self.x - 40, self.y - 25, self.x + 40, self.y + 25
+        else:
+            return -500, -500, -500, -500
 
     def handle_collision(self, other, group):
         if group == 'character:monster' and Boy.hit:
             game_world.remove_object(self)
         if group == 'target:monster':
-            self.hit_start = time.time()
-            Monster.hit = True
+            game_world.remove_object(self)
+            #self.hit_start = time.time()
+            #Monster.hit = True

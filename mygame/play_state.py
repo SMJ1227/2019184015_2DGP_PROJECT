@@ -42,7 +42,8 @@ def enter():
     game_world.add_object(character, 1)
 
     monster = Monster()
-    monsters = [Monster()]
+    #monsters = [Monster()]
+    monsters = [Monster() for i in range(10)]
     game_world.add_objects(monsters, 1)
 
     target = Target()
