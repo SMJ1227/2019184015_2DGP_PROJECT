@@ -33,8 +33,6 @@ FRAMES_PER_ACTION = 4
 Monster_type = ['monster.png', 'monster_horse.png']
 
 class Monster:
-    click = False
-
     def __init__(self):
         self.monster_type_number = random.randint(0, 1)
         if self.monster_type_number == 0:
@@ -51,8 +49,6 @@ class Monster:
         self.speed = 0
         self.frame = 0.0
         self.build_behavior_tree()
-        self.click_start = 0
-        self.time = time.time()
 
     def calculate_current_position(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
@@ -106,10 +102,6 @@ class Monster:
     def update(self):
         self.bt.run()
         self.calculate_current_position()
-        self.time = time.time()
-        if self.time - self.click_start >= 1:
-            print(self.click_start)
-            Monster.click = False
 
     def draw(self):
         if self.monster_type_number == 0:
@@ -127,20 +119,13 @@ class Monster:
                 self.image.clip_composite_draw(int(self.frame) * 100, 100 * 0, 100, 100, 0, 'h', self.x, self.y, 100, 100)
 
     def handle_event(self, event):
-        if event.type == SDL_MOUSEBUTTONDOWN:
-            self.click_start = time.time()
-            Monster.click = True
-        #elif event.type == SDL_MOUSEBUTTONUP:
-            #Monster.click = False
+        pass
 
     def get_bb(self):
-        if Monster.click:
-            if self.monster_type_number == 0:
-                return self.x-30, self.y-25, self.x+30, self.y+25
-            elif self.monster_type_number == 1:
-                return self.x - 40, self.y - 25, self.x + 40, self.y + 25
-        else:
-            return -500, -500, -500, -500
+        if self.monster_type_number == 0:
+            return self.x-30, self.y-25, self.x+30, self.y+25
+        elif self.monster_type_number == 1:
+            return self.x - 40, self.y - 25, self.x + 40, self.y + 25
 
     def handle_collision(self, other, group):
         if group == 'character:monster' and Boy.hit:

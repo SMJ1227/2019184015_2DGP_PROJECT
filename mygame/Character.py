@@ -236,6 +236,7 @@ class Boy:
         self.shield = Shield(self.x, self.y)
         self.hit_start = 0
         self.time = time.time()
+        self.hp = 5
 
     def update(self):
         self.cur_state.do(self)
@@ -254,6 +255,7 @@ class Boy:
         if Boy.hit:
             self.shield.draw()
         self.font.draw(600, 1000, f'(Time: {get_time():.2f})', (0, 0, 0))
+        self.font.draw(self.x + 100, self.y + 100, f'{self.hp}', (0, 0, 0))
         draw_rectangle(*self.get_bb())
 
     def get_bb(self):
@@ -261,5 +263,6 @@ class Boy:
 
     def handle_collision(self, other, group):
         if group == 'character:monster':
+            self.hp -= 1
             self.hit_start = time.time()
             Boy.hit = True
