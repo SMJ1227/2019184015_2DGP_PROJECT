@@ -18,7 +18,6 @@ def handle_events():
             game_framework.push_state(pause_state)
 
         else:
-            #monster.handle_event(event)
             target.handle_event(event)
             bullet.handle_event(event)
             character.handle_events(event)
@@ -64,7 +63,7 @@ def update():
 
     for a, b, group in game_world.all_collision_pairs():
         if collide(a, b):
-            print('COLLISON ', group)
+            #print('COLLISON ', group)
             a.handle_collision(b, group)
             b.handle_collision(a, group)
 

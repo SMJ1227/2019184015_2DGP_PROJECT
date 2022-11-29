@@ -10,14 +10,16 @@ class Target:
         self.image = load_image('target.png')
         self.x = play_state.TUK_GROUND_FULL_WIDTH // 2
         self.y = play_state.TUK_GROUND_FULL_HEIGHT // 2
-
         self.click_start = 0
         self.time = time.time()
 
     def update(self):
         self.time = time.time()
-        if self.time - self.click_start >= 1:
+        if play_state.bullet.bullets < 0:
+            Target.click = False
             pass
+        if self.time - self.click_start >= 0.1:
+            Target.click = False
 
     def draw(self):
         self.image.draw(self.x, self.y)
