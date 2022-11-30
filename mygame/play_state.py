@@ -51,10 +51,13 @@ def enter():
     bullet = Bullet()
     game_world.add_object(bullet, 2)
 
-    game_world.add_collision_pairs(character, monsters, 'character:monster')
+    game_world.add_collision_pairs(character, monsters, 'character:modnster')
     game_world.add_collision_pairs(target, monsters, 'target:monster')
 
 def exit():
+    global world, character, target, bullet, monsters, monster
+    world, character, target, bullet, monsters, monster = None, None, None, None, None, None
+
     game_world.clear()
 
 def update():
