@@ -25,11 +25,12 @@ def handle_events():
 
 TUK_GROUND_FULL_WIDTH = 1280
 TUK_GROUND_FULL_HEIGHT = 1024
+a = 0
 
 world = None
 character = None
-#monster = None
-#monsters = []
+monster = None
+monsters = []
 target = None
 bullet = None
 
@@ -42,6 +43,7 @@ def enter():
     game_world.add_object(character, 1)
 
     monster = Monster()
+    #monsters = [Monster()]
     #monsters = [Monster() for i in range(10)]
     #game_world.add_objects(monsters, 1)
 
@@ -66,6 +68,7 @@ def exit():
 
     game_world.clear()
 
+
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
@@ -75,6 +78,12 @@ def update():
             print('COLLISON ', group)
             a.handle_collision(b, group)
             b.handle_collision(a, group)
+
+    play_state.a += 1
+
+    if play_state.a%20 == 0:
+        monster = Monster()
+        game_world.add_object(monster, 1)
 
 def draw_world():
     for game_object in game_world.all_objects():
@@ -105,3 +114,6 @@ def pause():
 
 def resume():
     pass
+
+def add_monster():
+    game_world.add_object(monster, 1)
