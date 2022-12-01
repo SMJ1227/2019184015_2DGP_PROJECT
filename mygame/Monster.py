@@ -119,7 +119,8 @@ class Monster:
                 self.image.clip_composite_draw(int(self.frame) * 100, 100 * 0, 100, 100, 0, 'h', self.x, self.y, 100, 100)
 
     def handle_event(self, event):
-        pass
+        if (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
+            self.add_monster()
 
     def get_bb(self):
         if self.monster_type_number == 0:
@@ -132,3 +133,9 @@ class Monster:
             game_world.remove_object(self)
         if group == 'target:monster':
             game_world.remove_object(self)
+
+    def add_monster(self):
+        #monster = Monster()
+        game_world.add_object(play_state.monster, 1)
+        #game_world.add_collision_pairs(None, monster, 'character:monster')
+        #game_world.add_collision_pairs(None, monster, 'target:monster')

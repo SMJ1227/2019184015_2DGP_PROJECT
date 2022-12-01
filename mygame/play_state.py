@@ -18,6 +18,7 @@ def handle_events():
             game_framework.push_state(pause_state)
 
         else:
+            monster.handle_event(event)
             target.handle_event(event)
             bullet.handle_event(event)
             character.handle_events(event)
@@ -27,13 +28,13 @@ TUK_GROUND_FULL_HEIGHT = 1024
 
 world = None
 character = None
-monster = None
+#monster = None
 #monsters = []
 target = None
 bullet = None
 
 def enter():
-    global world, character, target, bullet, monsters, monster
+    global world, character, target, bullet, monster, monsters
     world = Map()
     game_world.add_object(world, 0)
 
@@ -41,9 +42,8 @@ def enter():
     game_world.add_object(character, 1)
 
     monster = Monster()
-    #monsters = [Monster()]
-    monsters = [Monster() for i in range(10)]
-    game_world.add_objects(monsters, 1)
+    #monsters = [Monster() for i in range(10)]
+    #game_world.add_objects(monsters, 1)
 
     target = Target()
     game_world.add_object(target, 2)
@@ -51,12 +51,18 @@ def enter():
     bullet = Bullet()
     game_world.add_object(bullet, 2)
 
-    game_world.add_collision_pairs(character, monsters, 'character:modnster')
-    game_world.add_collision_pairs(target, monsters, 'target:monster')
+    #game_world.add_collision_pairs(character, monsters, 'character:monster')
+    #game_world.add_collision_pairs(target, monsters, 'target:monster')
+    game_world.add_collision_pairs(character, monster, 'character:monster')
+    game_world.add_collision_pairs(target, monster, 'target:monster')
+    #game_world.add_collision_pairs(character, None, 'character:monster')
+    #game_world.add_collision_pairs(target, None, 'target:monster')
+    #game_world.add_collision_pairs(None, monster, 'character:monster')
+    #game_world.add_collision_pairs(None, monster, 'target:monster')
 
 def exit():
-    global world, character, target, bullet, monsters, monster
-    world, character, target, bullet, monsters, monster = None, None, None, None, None, None
+    global world, character, target, bullet#, monsters, monster
+    #world, character, target, bullet, monsters, monster = None, None, None, None, None, None
 
     game_world.clear()
 
@@ -66,7 +72,7 @@ def update():
 
     for a, b, group in game_world.all_collision_pairs():
         if collide(a, b):
-            #print('COLLISON ', group)
+            print('COLLISON ', group)
             a.handle_collision(b, group)
             b.handle_collision(a, group)
 
