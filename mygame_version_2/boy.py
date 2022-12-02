@@ -1,5 +1,6 @@
 from pico2d import *
 import play_state
+import gameover_state
 import game_framework
 import game_world
 import time
@@ -15,6 +16,18 @@ class Shield:
 
     def draw(self):
         self.image.draw(self.x, self.y, 100, 100)
+
+class Heart:
+    def __init__(self):
+        self.image = load_image('heart.png')
+        self.hp = 5
+
+    def update(self):
+        pass
+
+    def draw(self):
+        for i in range(self.hp):
+            self.image.draw(50 + (i * 30), 950)
 
 RD, LD, UD, DD, RU, LU, UU, DU = range(8)
 
@@ -239,13 +252,13 @@ class Boy:
         self.time = time.time()
         self.time_long = time.time()
         self.shield = Shield(self.x, self.y)
-        self.hp = 5
+        self.hp = Heart()
 
     def update(self):
         self.sx, self.sy = self.x - server.world.window_left, self.y - server.world.window_bottom
         self.shield = Shield(self.sx, self.sy)
         self.time = time.time()
-        if self.time - self.hit_start >= 0.5:
+        if self.time - self.hit_start >= 1:
             Boy.hit = False
         self.cur_state.do(self)
         if self.q:
@@ -260,6 +273,7 @@ class Boy:
             self.shield.draw()
         self.font.draw(600, 1000, f'(Time: {self.time - self.time_long:.2f})', (0, 0, 0))
         draw_rectangle(*self.get_bb())
+        self.hp.draw()
 
     def add_event(self, event):
         self.q.insert(0, event)
@@ -274,9 +288,14 @@ class Boy:
 
     def handle_collision(self, other, group):
         if group == 'character:monster':
-            self.hp -= 1
-            self.hit_start = time.time()
-            Boy.hit = True
+            if Boy.hit is not True:
+                self.hit_start = time.time()
+                Boy.hit = True
+                self.hp.hp -= 1
+                if self.hp.hp == 0:
+                    game_framework.push_state(gameover_state)
+            elif Boy.hit:
+                pass
 
     def set_background(self, bg):
         self.bg = bg
