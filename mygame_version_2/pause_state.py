@@ -66,7 +66,7 @@ next_state = {
 
 def enter():
     global image
-    image = load_image('pause.png')
+    image = load_image('pause_state.png')
 
 def exit():
     global image
@@ -79,7 +79,7 @@ def update():
 def draw():
     clear_canvas()
     play_state.draw_world()
-    image.draw(play_state.TUK_GROUND_FULL_WIDTH // 2, play_state.TUK_GROUND_FULL_HEIGHT // 2)
+    image.draw(get_canvas_width() // 2, get_canvas_height() // 2)
     update_canvas()
 
 def handle_events():

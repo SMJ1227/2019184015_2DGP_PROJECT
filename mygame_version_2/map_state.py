@@ -35,7 +35,7 @@ def handle_events():
 
 def draw():
     clear_canvas()
-    image.draw(play_state.TUK_GROUND_FULL_WIDTH // 2, play_state.TUK_GROUND_FULL_HEIGHT // 2)
+    image.draw(get_canvas_width() // 2, get_canvas_height() // 2)
     update_canvas()
 
 def update():

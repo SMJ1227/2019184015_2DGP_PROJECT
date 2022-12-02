@@ -277,7 +277,6 @@ class Boy:
             self.hp -= 1
             self.hit_start = time.time()
             Boy.hit = True
-            print(self.hp)
 
     def set_background(self, bg):
         self.bg = bg

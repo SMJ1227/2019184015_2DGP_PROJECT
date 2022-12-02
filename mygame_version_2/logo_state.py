@@ -1,7 +1,6 @@
 from pico2d import *
 import game_framework
 import title_state
-import play_state
 
 image = None
 logo_time = 0.0
@@ -25,8 +24,8 @@ def update():
 
 def draw():
     clear_canvas()
-    image.draw(play_state.TUK_GROUND_FULL_WIDTH // 2, play_state.TUK_GROUND_FULL_HEIGHT // 2)
+    image.draw(get_canvas_width() // 2, get_canvas_height() // 2)
     update_canvas()
 
 def handle_events():
-    events = get_events()
+    pass

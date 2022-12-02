@@ -26,7 +26,7 @@ class Target:
 
     def handle_event(self, event):
         if event.type == SDL_MOUSEMOTION:
-            self.x, self.y = event.x, play_state.TUK_GROUND_FULL_HEIGHT - 1 - event.y
+            self.x, self.y = event.x, get_canvas_height() - 1 - event.y
         elif event.type == SDL_MOUSEBUTTONDOWN:
             self.click_start = time.time()
             Target.click = True

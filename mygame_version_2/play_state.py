@@ -22,8 +22,8 @@ def handle_events():
             server.bullet.handle_event(event)
             server.boy.handle_events(event)
 
-TUK_GROUND_FULL_WIDTH = 1280
-TUK_GROUND_FULL_HEIGHT = 1024
+#TUK_GROUND_FULL_WIDTH = 1280
+#TUK_GROUND_FULL_HEIGHT = 1024
 
 def enter():
     server.world = Map()
@@ -45,7 +45,7 @@ def enter():
     game_world.add_collision_pairs(server.target, server.monsters, 'target:monster')
 
 def exit():
-    global world, character, target, bullet#, monsters, monster
+    #global world, character, target, bullet, monsters#, monster
     server.boy, server.monsters = None, None
     game_world.clear()
 
