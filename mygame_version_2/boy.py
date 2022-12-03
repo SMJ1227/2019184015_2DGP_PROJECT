@@ -1,10 +1,8 @@
 from pico2d import *
-import play_state
-import gameover_state
-import game_framework
-import game_world
 import time
+import game_framework
 import server
+import gameover_state
 
 class Shield:
     def __init__(self, x=0, y=0):
@@ -17,16 +15,16 @@ class Shield:
     def draw(self):
         self.image.draw(self.x, self.y, 100, 100)
 
-class Heart:
+class Hp:
     def __init__(self):
         self.image = load_image('heart.png')
-        self.hp = 5
+        #self.hp = 5
 
     def update(self):
         pass
 
     def draw(self):
-        for i in range(self.hp):
+        for i in range(server.boy.heart):
             self.image.draw(50 + (i * 30), 950)
 
 RD, LD, UD, DD, RU, LU, UU, DU = range(8)
@@ -98,8 +96,8 @@ class RUN:
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
         boy.x += boy.dirrl * RUN_SPEED_PPS * game_framework.frame_time
         boy.y += boy.dirud * RUN_SPEED_PPS * game_framework.frame_time
-        boy.x = clamp(0, boy.x, server.world.w - 1)
-        boy.y = clamp(0, boy.y, server.world.h - 1)
+        boy.x = clamp(100, boy.x, server.world.w - 100)
+        boy.y = clamp(100, boy.y, server.world.h - 100)
 
     def draw(boy):
         sx, sy = boy.x - server.world.window_left, boy.y - server.world.window_bottom
@@ -145,8 +143,8 @@ class DRUN:
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
         boy.x += boy.dirrl * RUN_SPEED_PPS * game_framework.frame_time
         boy.y += boy.dirud * RUN_SPEED_PPS * game_framework.frame_time
-        boy.x = clamp(0, boy.x, server.world.w - 1)
-        boy.y = clamp(0, boy.y, server.world.h - 1)
+        boy.x = clamp(100, boy.x, server.world.w - 100)
+        boy.y = clamp(100, boy.y, server.world.h - 100)
 
     def draw(boy):
         sx, sy = boy.x - server.world.window_left, boy.y - server.world.window_bottom
@@ -192,8 +190,8 @@ class TRUN:
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
         boy.x += boy.dirrl * RUN_SPEED_PPS * game_framework.frame_time
         boy.y += boy.dirud * RUN_SPEED_PPS * game_framework.frame_time
-        boy.x = clamp(0, boy.x, server.world.w - 1)
-        boy.y = clamp(0, boy.y, server.world.h - 1)
+        boy.x = clamp(100, boy.x, server.world.w - 100)
+        boy.y = clamp(100, boy.y, server.world.h - 100)
 
     def draw(boy):
         sx, sy = boy.x - server.world.window_left, boy.y - server.world.window_bottom
@@ -252,7 +250,9 @@ class Boy:
         self.time = time.time()
         self.time_long = time.time()
         self.shield = Shield(self.x, self.y)
-        self.hp = Heart()
+        self.hp = Hp()
+        self.heart = 5
+        self.remaining = 100
 
     def update(self):
         self.sx, self.sy = self.x - server.world.window_left, self.y - server.world.window_bottom
@@ -291,8 +291,8 @@ class Boy:
             if Boy.hit is not True:
                 self.hit_start = time.time()
                 Boy.hit = True
-                self.hp.hp -= 1
-                if self.hp.hp == 0:
+                self.heart -= 1
+                if self.heart == 0:
                     game_framework.push_state(gameover_state)
             elif Boy.hit:
                 pass

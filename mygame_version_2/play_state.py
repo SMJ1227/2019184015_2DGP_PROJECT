@@ -1,6 +1,4 @@
-from pico2d import *
 from Map import *
-from Monster import *
 from Bullet import *
 from Target import *
 from boy import *
@@ -22,9 +20,6 @@ def handle_events():
             server.bullet.handle_event(event)
             server.boy.handle_events(event)
 
-#TUK_GROUND_FULL_WIDTH = 1280
-#TUK_GROUND_FULL_HEIGHT = 1024
-
 def enter():
     server.world = Map()
     game_world.add_object(server.world, 0)
@@ -45,10 +40,8 @@ def enter():
     game_world.add_collision_pairs(server.target, server.monsters, 'target:monster')
 
 def exit():
-    #global world, character, target, bullet, monsters#, monster
-    server.boy, server.monsters = None, None
+    server.world, server.boy, server.monsters, server.target, server.bullet = None, None, None, None, None
     game_world.clear()
-
 
 def update():
     for game_object in game_world.all_objects():

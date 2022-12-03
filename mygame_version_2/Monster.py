@@ -1,13 +1,13 @@
 from pico2d import *
 from BehaviorTree import BehaviorTree, Selector, Sequence, Leaf
 from boy import *
-import time
+
 import math
 import random
-import play_state
 import game_framework
 import game_world
 import server
+import clear_state
 
 class RandomLocation:
     def __init__(self, x=0, y=0):
@@ -52,15 +52,14 @@ class Monster:
         self.speed = 0
         self.frame = 0.0
         self.build_behavior_tree()
-        #self.remaining = 100
         self.font = load_font('ENCR10B.TTF', 16)
 
     def calculate_current_position(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % FRAMES_PER_ACTION
         self.x += self.speed * math.cos(self.dir) * game_framework.frame_time
         self.y += self.speed * math.sin(self.dir) * game_framework.frame_time
-        self.x = clamp(50, self.x, server.world.w-100)
-        self.y = clamp(50, self.y, server.world.h-100)
+        self.x = clamp(100, self.x, server.world.w-100)
+        self.y = clamp(100, self.y, server.world.h-100)
 
     def calculate_squared_distance(self, a, b):
         return (a.x-b.x)**2 + (a.y-b.y)**2
@@ -80,7 +79,7 @@ class Monster:
             return BehaviorTree.RUNNING
 
     def find_random_location(self):
-        self.tx, self.ty = random.randint(50, server.world.w-100), random.randint(50, server.world.h-100)
+        self.tx, self.ty = random.randint(100, server.world.w-100), random.randint(100, server.world.h-100)
         self.random_location.x, self.random_location.y = self.tx, self.ty
         return BehaviorTree.SUCCESS
 
@@ -109,7 +108,7 @@ class Monster:
         self.calculate_current_position()
 
     def draw(self):
-        self.font.draw(585, 975, f'(Monsters: %d)' % (Monster.remaining), (500, 0, 0))
+        self.font.draw(585, 975, f'(Monsters: %d)' % (server.boy.remaining), (500, 0, 0))
         self.sx, self.sy = self.x - server.world.window_left, self.y - server.world.window_bottom
         if self.monster_type_number == 0:
             draw_rectangle(*self.get_bb())
@@ -138,8 +137,12 @@ class Monster:
     def handle_collision(self, other, group):
         if group == 'character:monster' and Boy.hit:
             game_world.remove_object(self)
-            Monster.remaining -= 1
+            server.boy.remaining -= 1
+            if server.boy.remaining == 0:
+                game_framework.push_state(clear_state)
 
         if group == 'target:monster':
             game_world.remove_object(self)
-            Monster.remaining -= 1
+            server.boy.remaining -= 1
+            if server.boy.remaining == 0:
+                game_framework.push_state(clear_state)

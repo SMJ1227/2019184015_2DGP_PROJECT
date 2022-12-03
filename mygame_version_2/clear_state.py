@@ -3,6 +3,7 @@ from boy import *
 import game_framework
 import play_state
 import title_state
+import map_state
 
 image = None
 
@@ -16,7 +17,6 @@ def exit():
 
 def update():
     pass
-    #play_state.update()
 
 def draw():
     clear_canvas()
@@ -38,3 +38,5 @@ def handle_events():
                     game_framework.change_state(title_state)
                 case pico2d.SDLK_q:
                     game_framework.quit()
+                case pico2d.SDLK_m:
+                    game_framework.change_state(map_state)
