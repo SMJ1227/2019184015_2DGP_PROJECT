@@ -1,12 +1,15 @@
-from Map import *
+import Map
 from Bullet import *
 from Target import *
 from boy import *
+from Cactus import *
+from Map import *
 
 import game_framework
 import game_world
 import pause_state
 import server
+import json
 
 def handle_events():
     events = get_events()
@@ -35,6 +38,16 @@ def enter():
 
     server.bullet = Bullet()
     game_world.add_object(server.bullet, 2)
+
+    if Map.image_number == 2:
+        with open('cactus.json', 'r') as f:
+            cactus_data_list = json.load(f)
+            for data in cactus_data_list:
+                cactus = Cactus(data['type'], data['number'], data['x'], data['y'])
+                game_world.add_object(cactus, 1)
+                game_world.add_collision_pairs(server.boy, cactus, 'character:cactus')
+    else:
+        pass
 
     game_world.add_collision_pairs(server.boy, server.monsters, 'character:monster')
     game_world.add_collision_pairs(server.target, server.monsters, 'target:monster')

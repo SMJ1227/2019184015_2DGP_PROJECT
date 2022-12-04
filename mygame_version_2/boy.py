@@ -19,7 +19,6 @@ class Shield:
 class Hp:
     def __init__(self):
         self.image = load_image('heart.png')
-        #self.hp = 5
 
     def update(self):
         pass
@@ -43,10 +42,10 @@ key_event_table = {
 
 # 이속
 PIXEL_PER_METER = (10.0 / 0.25) # 10pixel 25cm / 키185cm
-if Map.image_number == 1:
-    RUN_SPEED_KMPH = 30.0
+if Map.image_number == 0:
+    RUN_SPEED_KMPH = 40.0
 else:
-    RUN_SPEED_KMPH = 40.0 # Km/Hour
+    RUN_SPEED_KMPH = 30.0 # Km/Hour
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -276,7 +275,6 @@ class Boy:
         if Boy.hit:
             self.shield.draw()
         self.font.draw(600, 1000, f'(Time: {self.time - self.time_long:.2f})', (0, 0, 0))
-        #draw_rectangle(*self.get_bb())
         self.hp.draw()
 
     def add_event(self, event):
@@ -292,6 +290,15 @@ class Boy:
 
     def handle_collision(self, other, group):
         if group == 'character:monster':
+            if Boy.hit is not True:
+                self.hit_start = time.time()
+                Boy.hit = True
+                self.heart -= 1
+                if self.heart == 0:
+                    game_framework.push_state(gameover_state)
+            elif Boy.hit:
+                pass
+        elif group == 'character:cactus':
             if Boy.hit is not True:
                 self.hit_start = time.time()
                 Boy.hit = True
