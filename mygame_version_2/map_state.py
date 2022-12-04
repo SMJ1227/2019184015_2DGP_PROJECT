@@ -1,8 +1,8 @@
 from pico2d import *
 from Map import *
 import game_framework
-import play_state
 import title_state
+import level_state
 
 image = None
 
@@ -25,13 +25,13 @@ def handle_events():
                     game_framework.change_state(title_state)
                 case pico2d.SDLK_1:
                     Map.image_number = 0
-                    game_framework.change_state(play_state)
+                    game_framework.change_state(level_state)
                 case pico2d.SDLK_2:
                     Map.image_number = 1
-                    game_framework.change_state(play_state)
+                    game_framework.change_state(level_state)
                 case pico2d.SDLK_3:
                     Map.image_number = 2
-                    game_framework.change_state(play_state)
+                    game_framework.change_state(level_state)
 
 def draw():
     clear_canvas()

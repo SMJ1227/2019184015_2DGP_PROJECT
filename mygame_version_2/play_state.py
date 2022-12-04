@@ -5,11 +5,15 @@ from boy import *
 from Cactus import *
 from Map import *
 
+import random
 import game_framework
 import game_world
 import pause_state
+import level_state
 import server
 import json
+
+game_level = None
 
 def handle_events():
     events = get_events()
@@ -30,8 +34,18 @@ def enter():
     server.boy = Boy()
     game_world.add_object(server.boy, 1)
 
-    server.monsters = [Monster() for i in range(100)]
-    game_world.add_objects(server.monsters, 1)
+    if game_level == 0:
+        print(game_level)
+        server.monsters = [Monster() for i in range(20)]
+        game_world.add_objects(server.monsters, 1)
+    elif game_level == 1:
+        print(game_level)
+        server.monsters = [Monster() for i in range(50)]
+        game_world.add_objects(server.monsters, 1)
+    elif game_level == 2:
+        print(game_level)
+        server.monsters = [Monster() for i in range(100)]
+        game_world.add_objects(server.monsters, 1)
 
     server.target = Target()
     game_world.add_object(server.target, 2)
@@ -53,6 +67,7 @@ def enter():
     game_world.add_collision_pairs(server.target, server.monsters, 'target:monster')
 
 def exit():
+    del server.world, server.boy, server.monsters, server.target, server.bullet
     server.world, server.boy, server.monsters, server.target, server.bullet = None, None, None, None, None
     game_world.clear()
 
