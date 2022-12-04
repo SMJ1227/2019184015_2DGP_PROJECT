@@ -3,6 +3,7 @@ import time
 import game_framework
 import server
 import gameover_state
+from Map import *
 
 class Shield:
     def __init__(self, x=0, y=0):
@@ -42,7 +43,10 @@ key_event_table = {
 
 # 이속
 PIXEL_PER_METER = (10.0 / 0.25) # 10pixel 25cm / 키185cm
-RUN_SPEED_KMPH = 40.0 # Km/Hour
+if Map.image_number == 1:
+    RUN_SPEED_KMPH = 30.0
+else:
+    RUN_SPEED_KMPH = 40.0 # Km/Hour
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -272,7 +276,7 @@ class Boy:
         if Boy.hit:
             self.shield.draw()
         self.font.draw(600, 1000, f'(Time: {self.time - self.time_long:.2f})', (0, 0, 0))
-        draw_rectangle(*self.get_bb())
+        #draw_rectangle(*self.get_bb())
         self.hp.draw()
 
     def add_event(self, event):

@@ -6,7 +6,7 @@ import server
 Map_type = ['grass_map.png', 'snow_map.png', 'dessert_map.png']
 
 class Map:
-    image_number = 0#random.randint(0, 2)
+    image_number = random.randint(0, 2)
 
     def __init__(self):
         self.image = load_image(Map_type[Map.image_number])

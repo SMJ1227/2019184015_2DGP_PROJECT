@@ -108,10 +108,10 @@ class Monster:
         self.calculate_current_position()
 
     def draw(self):
-        self.font.draw(585, 975, f'(Monsters: %d)' % (server.boy.remaining), (500, 0, 0))
+        self.font.draw(595, 975, f'(Monsters: %d)' % (server.boy.remaining), (500, 0, 0))
         self.sx, self.sy = self.x - server.world.window_left, self.y - server.world.window_bottom
         if self.monster_type_number == 0:
-            draw_rectangle(*self.get_bb())
+            #draw_rectangle(*self.get_bb())
             if math.cos(self.dir) < 0:
                 self.image.composite_draw(0, 'h', self.sx, self.sy)
             else:
