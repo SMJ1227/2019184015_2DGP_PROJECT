@@ -1,5 +1,5 @@
 from pico2d import *
-from boy import *
+from Boy import *
 import game_framework
 import game_world
 import title_state

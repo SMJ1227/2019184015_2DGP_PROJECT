@@ -1,7 +1,7 @@
 import Map
 from Bullet import *
 from Target import *
-from boy import *
+from Boy import *
 from Cactus import *
 from Map import *
 
@@ -35,15 +35,12 @@ def enter():
     game_world.add_object(server.boy, 1)
 
     if game_level == 0:
-        print(game_level)
         server.monsters = [Monster() for i in range(20)]
         game_world.add_objects(server.monsters, 1)
     elif game_level == 1:
-        print(game_level)
         server.monsters = [Monster() for i in range(50)]
         game_world.add_objects(server.monsters, 1)
     elif game_level == 2:
-        print(game_level)
         server.monsters = [Monster() for i in range(100)]
         game_world.add_objects(server.monsters, 1)
 

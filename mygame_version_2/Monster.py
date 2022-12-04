@@ -1,6 +1,6 @@
 from pico2d import *
 from BehaviorTree import BehaviorTree, Selector, Sequence, Leaf
-from boy import *
+from Boy import *
 
 import math
 import random

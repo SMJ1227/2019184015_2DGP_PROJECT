@@ -42,10 +42,9 @@ key_event_table = {
 
 # 이속
 PIXEL_PER_METER = (10.0 / 0.25) # 10pixel 25cm / 키185cm
-if Map.image_number == 0:
-    RUN_SPEED_KMPH = 40.0
-else:
-    RUN_SPEED_KMPH = 30.0 # Km/Hour
+RUN_SPEED_KMPH = 30.0 # Km/Hour
+if Map.image_number == 1 or 2:
+    RUN_SPEED_KMPH = 20.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -281,12 +280,18 @@ class Boy:
         self.q.insert(0, event)
 
     def handle_events(self, event):
+        global RUN_SPEED_KMPH
         if(event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
             self.q.insert(0, key_event)
+        elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
+            RUN_SPEED_KMPH += 10
+        elif (event.type, event.key) == (SDL_KEYUP, SDLK_SPACE):
+            RUN_SPEED_KMPH -= 10
+
 
     def get_bb(self):
-        return self.sx-10, self.sy-35, self.sx+15, self.sy+40
+        return self.sx-10, self.sy-35,  self.sx+15, self.sy+40
 
     def handle_collision(self, other, group):
         if group == 'character:monster':
