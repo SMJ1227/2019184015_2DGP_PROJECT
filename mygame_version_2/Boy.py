@@ -6,9 +6,14 @@ import gameover_state
 from Map import *
 
 class Shield:
+    shield_sound = None
+
     def __init__(self, x=0, y=0):
         self.x, self.y = x, y
         self.image = load_image('shield.png')
+        if Shield.shield_sound is None:
+            Shield.shield_sound = load_wav('Shield_sound.wav')
+            Shield.shield_sound.set_volume(20)
 
     def update(self):
         pass
@@ -43,7 +48,9 @@ key_event_table = {
 # 이속
 PIXEL_PER_METER = (10.0 / 0.25) # 10pixel 25cm / 키185cm
 RUN_SPEED_KMPH = 30.0 # Km/Hour
-if Map.image_number == 1 or 2:
+if Map.image_number == 0:
+    pass
+elif Map.image_number == 1 or 2:
     RUN_SPEED_KMPH = 20.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
@@ -235,6 +242,7 @@ next_state = {
 
 class Boy:
     hit = False
+    close_sound = None
 
     def __init__(self):
         self.image = load_image('animation_sheet.png')
@@ -255,6 +263,9 @@ class Boy:
         self.hp = Hp()
         self.heart = 5
         self.remaining = 100
+        if Boy.close_sound is None:
+            Boy.close_sound = load_wav('close_sound.wav')
+            Boy.close_sound.set_volume(20)
 
     def update(self):
         self.sx, self.sy = self.x - server.world.window_left, self.y - server.world.window_bottom
@@ -285,33 +296,47 @@ class Boy:
             key_event = key_event_table[(event.type, event.key)]
             self.q.insert(0, key_event)
         elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-            RUN_SPEED_KMPH += 10
+            if Map.image_number == 0:
+                RUN_SPEED_KMPH = 40.0
+            elif Map.image_number == 1 or 2:
+                RUN_SPEED_KMPH = 30.0
         elif (event.type, event.key) == (SDL_KEYUP, SDLK_SPACE):
-            RUN_SPEED_KMPH -= 10
-
+            if Map.image_number == 0:
+                RUN_SPEED_KMPH = 30.0
+            elif Map.image_number == 1 or 2:
+                RUN_SPEED_KMPH = 20.0
 
     def get_bb(self):
         return self.sx-10, self.sy-35,  self.sx+15, self.sy+40
 
     def handle_collision(self, other, group):
         if group == 'character:monster':
-            if Boy.hit is not True:
-                self.hit_start = time.time()
-                Boy.hit = True
+            if self.heart == 1 and Boy.hit is not True:
                 self.heart -= 1
-                if self.heart == 0:
-                    game_framework.push_state(gameover_state)
-            elif Boy.hit:
-                pass
+                self.hp.draw()
+                Boy.close_sound.play()
+                game_framework.push_state(gameover_state)
+            else:
+                if Boy.hit is not True:
+                    self.hit_start = time.time()
+                    Boy.hit = True
+                    Shield.shield_sound.play()
+                    self.heart -= 1
+                elif Boy.hit:
+                    pass
         elif group == 'character:cactus':
-            if Boy.hit is not True:
-                self.hit_start = time.time()
-                Boy.hit = True
+            if self.heart == 1 and Boy.hit is not True:
                 self.heart -= 1
-                if self.heart == 0:
-                    game_framework.push_state(gameover_state)
-            elif Boy.hit:
-                pass
+                self.hp.draw()
+                Boy.close_sound.play()
+                game_framework.push_state(gameover_state)
+            else:
+                if Boy.hit is not True:
+                    self.hit_start = time.time()
+                    Boy.hit = True
+                    Shield.shield_sound.play()
+                elif Boy.hit:
+                    pass
 
     def set_background(self, bg):
         self.bg = bg

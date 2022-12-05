@@ -1,6 +1,7 @@
 from pico2d import *
 from Boy import *
 import game_framework
+import game_world
 import play_state
 import title_state
 import map_state
@@ -9,7 +10,7 @@ image = None
 
 def enter():
     global image
-    image = load_image('clear_state.png')
+    image = load_image('clear_state_fixing.png')
 
 def exit():
     global image
@@ -33,10 +34,9 @@ def handle_events():
             match event.key:
                 case pico2d.SDLK_ESCAPE:
                     game_framework.quit()
-                case pico2d.SDLK_t:
-                    game_world.clear()
-                    game_framework.change_state(title_state)
                 case pico2d.SDLK_q:
                     game_framework.quit()
                 case pico2d.SDLK_m:
-                    game_framework.change_state(map_state)
+                    pass
+                    #game_world.clear()
+                    #game_framework.change_state(map_state)

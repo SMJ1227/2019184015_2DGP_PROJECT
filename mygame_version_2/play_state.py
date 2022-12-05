@@ -14,6 +14,7 @@ import server
 import json
 
 game_level = None
+open_sound = None
 
 def handle_events():
     events = get_events()
@@ -28,6 +29,11 @@ def handle_events():
             server.boy.handle_events(event)
 
 def enter():
+    global open_sound
+    open_sound = load_music('Open_sound.mp3')
+    open_sound.set_volume(32)
+    open_sound.play(1)
+
     server.world = Map()
     game_world.add_object(server.world, 0)
 
@@ -64,9 +70,10 @@ def enter():
     game_world.add_collision_pairs(server.target, server.monsters, 'target:monster')
 
 def exit():
-    del server.world, server.boy, server.monsters, server.target, server.bullet
-    server.world, server.boy, server.monsters, server.target, server.bullet = None, None, None, None, None
+    global open_sound
+    del open_sound
     game_world.clear()
+    server.monsters = None
 
 def update():
     for game_object in game_world.all_objects():

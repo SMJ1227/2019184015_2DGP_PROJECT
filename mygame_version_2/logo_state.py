@@ -4,14 +4,18 @@ import title_state
 
 image = None
 logo_time = 0.0
+open_sound = None
 
 def enter():
-    global image
+    global image, open_sound
     image = load_image('tuk_credit.png')
+    open_sound = load_music('Open_sound.mp3')
+    open_sound.set_volume(32)
+    open_sound.play(1)
 
 def exit():
-    global image
-    del image
+    global image, open_sound
+    del image, open_sound
     pass
 
 def update():

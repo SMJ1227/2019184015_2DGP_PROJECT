@@ -1,5 +1,5 @@
 world = None
 boy = None
-monsters = []
+monsters = None
 target = None
 bullet = None

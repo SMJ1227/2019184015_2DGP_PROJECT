@@ -5,14 +5,18 @@ import play_state
 import map_state
 
 image = None
+open_sound = None
 
 def enter():
-    global image
+    global image, open_sound
     image = load_image('level_state.png')
+    open_sound = load_music('Open_sound.mp3')
+    open_sound.set_volume(32)
+    open_sound.play(1)
 
 def exit():
-    global image
-    del image
+    global image, open_sound
+    del image, open_sound
 
 def handle_events():
     events = get_events()

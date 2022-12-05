@@ -9,7 +9,6 @@ class Cactus:
 
     def draw(self):
         self.sx, self.sy = self.x - server.world.window_left, self.y - server.world.window_bottom
-        draw_rectangle(*self.get_bb())
 
     def update(self):
         pass
